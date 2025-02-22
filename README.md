@@ -61,6 +61,11 @@ From datasheet - table 4
 
 TODO
 
+No data available yet.
+To be measured when hardware is available...
+if you happen to have performance figures, please share them in an issue.
+
+
 ### Compatibles
 
 TODO
@@ -125,11 +130,7 @@ So it might be needed to discard a first read.
 Will configure temperature mode automatically.
 
 
-### Performance
 
-No data available yet.
-To be measured when hardware is available...
-if you happen to have performance figures, please share them in an issue.
 
 
 ## Future

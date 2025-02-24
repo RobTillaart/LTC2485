@@ -56,15 +56,15 @@ uint8_t LTC2485::configure(uint8_t config)
 
 int32_t LTC2485::getADC()
 {
-  // if ((_config & LTC2485_INTERNAL_TEMP) > 0)
-  // {
-    // configure(_config & 0x07);
-  // }
-  configure(_config & 0x07);
+  if (configure(_config & 0x07) != 0) 
+  {
+    Serial.println("FAIL TO CONFIG-A");
+    return 0;
+  }
   int32_t value = _read();
   //  TODO check read error
   value ^= 0x80000000;
-  return int32_t(value);
+  return value;
 }
 
 
@@ -77,11 +77,11 @@ float LTC2485::getVolts()
 
 float LTC2485::getTemperature()
 {
-  // if ((_config & LTC2485_INTERNAL_TEMP) == 0)
-  // {
-    // configure(_config | LTC2485_INTERNAL_TEMP);
-  // }
-  configure(_config | LTC2485_INTERNAL_TEMP);
+  if (configure(_config | LTC2485_INTERNAL_TEMP) != 0)
+  {
+    Serial.println("FAIL TO CONFIG-T");
+    return 0;
+  }
   //  datasheet page 20
   //  27 C  == 420 mV
   //  SLOPE == 1.40 mV

@@ -25,6 +25,8 @@ void setup()
   Wire.begin();
   Wire.setClock(100000);
   LTC.begin();
+  delay(200);
+
   while (!LTC.isConnected())
   {
     Serial.println("Could not connect to device");

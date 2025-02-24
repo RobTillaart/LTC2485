@@ -73,7 +73,11 @@ TODO
 
 ### Related
 
+- https://gammon.com.au/adc  tutorial about ADC's (UNO specific)
 - https://github.com/RobTillaart/LTC2485
+- https://github.com/RobTillaart/MCP_ADC  SPI based ADC
+- https://github.com/RobTillaart/ADS1x15  (12 & 16 bit ADC, I2C, slow)
+- https://github.com/RobTillaart/PCF8591  (8 bit ADC + 1 bit DAC)
 - https://github.com/RobTillaart/temperature converters
 
 

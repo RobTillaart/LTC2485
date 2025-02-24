@@ -26,6 +26,7 @@ void setup()
   Wire.begin();
   Wire.setClock(100000);
   LTC.begin();
+  delay(200);
 }
 
 

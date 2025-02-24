@@ -109,7 +109,8 @@ uint8_t LTC2485::_write(uint8_t value)
 uint32_t LTC2485::_read()
 {
   uint32_t rv = 0;
-  if ( 4 == _wire->requestFrom(_address, (uint8_t)4))
+  int n = _wire->requestFrom(_address, (uint8_t)4);
+  if (n == 4)
   {
     _lastRead = millis();
     rv |= _wire->read();
@@ -121,7 +122,7 @@ uint32_t LTC2485::_read()
     rv |= _wire->read();
     return rv;
   }
-  return 0xFFFFFFFF;
+  return n;
 }
 
 

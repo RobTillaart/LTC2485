@@ -15,9 +15,9 @@ void setup()
   Wire.begin();
   delay(200);  //  for first conversion
 
-  Wire.beginTransaction(0x16);    //  address
+  Wire.beginTransmission(0x16);    //  address
   Wire.write(0x00);               //  default configuration
-  int n = Wire.endTransaction();  //  send config over I2C to address
+  int n = Wire.endTransmission();  //  send config over I2C to address
   Serial.println(n);
 
   n = Wire.requestFrom(0x16, 4);

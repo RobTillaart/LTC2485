@@ -6,7 +6,7 @@
 #include "Arduino.h"
 #include "Wire.h"
 
-void setup() 
+void setup()
 {
   while(!Serial);
   Serial.begin(115200);
@@ -15,17 +15,30 @@ void setup()
   Wire.begin();
   delay(200);  //  for first conversion
 
-  Wire.beginTransmission(0x16);    //  address
-  Wire.write(0x00);               //  default configuration
-  int n = Wire.endTransmission();  //  send config over I2C to address
-  Serial.println(n);
+  for (int del = 200; del > 0; del -= 10)
+  {
+    Serial.print(del);
+    Serial.print("\t");
+    Wire.beginTransmission(0x16);    //  address
+    Wire.write(0x00);                //  default configuration
+    int n = Wire.endTransmission();  //  send config over I2C to address
+    Serial.print(n);
 
-  n = Wire.requestFrom(0x16, 4);
-  Serial.println(n);
-  Serial.println(Wire.read());
-  Serial.println(Wire.read());
-  Serial.println(Wire.read());
-  Serial.println(Wire.read());
+    delay(del);
+    
+    Serial.print("\t");
+    n = Wire.requestFrom(0x16, 4);
+    Serial.print(n);
+    Serial.print("\t");
+    Serial.print(Wire.read());
+    Serial.print("\t");
+    Serial.print(Wire.read());
+    Serial.print("\t");
+    Serial.print(Wire.read());
+    Serial.print("\t");
+    Serial.println(Wire.read());
+    delay(1000);
+  }
 
   Serial.println("\ndone...");
 }

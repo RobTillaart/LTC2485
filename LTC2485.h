@@ -46,7 +46,7 @@ public:
 
 private:
 
-  uint8_t  _write(uint8_t value);
+  int      _write(uint8_t value);
   uint32_t _read();
   uint32_t _lastAccess = 0;
   uint8_t  _timeout = 160;   //  TODO 80 at LTC2485_SPEED_2X

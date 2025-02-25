@@ -49,26 +49,24 @@ int LTC2485::configure(uint8_t config)
   //  skip invalid configuration, see table 1.
   if ((config & 0x06) || (config == 0x09)) return 255;
   if (config & 0xF0) return 255;
+  _config = config;
   while ((millis() - _lastAccess) < _timeout)
   {
     delay(1);
   }
-  _config = config;
-  //  adjust conversion timeout
-  if (_config & LTC2485_SPEED_2X) 
-  {
-    _timeout = 80;
-  }
-  else
-  {
-    _timeout = 160;
-  }
-  //  finally write to LTC2485
   int rv = _write(_config);
-  //  update lastAccess if successful write
+  //  update lastAccess and timeout on successful write
   if (rv == 0)
   {
     _lastAccess = millis();
+    if (_config & LTC2485_SPEED_2X) 
+    {
+      _timeout = 80;
+    }
+    else
+    {
+      _timeout = 160;
+    }
   }
   return rv;
 }
@@ -103,7 +101,6 @@ float LTC2485::getVolts()
 }
 
 
-//  TODO FIX FLOW.
 float LTC2485::getTemperature()
 {
   if ((_config & LTC2485_INTERNAL_TEMP) == 0)
@@ -118,10 +115,11 @@ float LTC2485::getTemperature()
   {
     delay(1);
   }
+  float volts = int32_t(_read() ^ 0x80000000) * _vref * 6.1643863061e-8;
   //  datasheet page 20
   //  27 C  == 420 mV
   //  SLOPE == 1.40 mV
-  float TC = 27.0 + (getVolts() - 0.420);
+  float TC = 27.0 + 1.40 * (volts - 0.420);
   return TC;
 }
 
@@ -150,13 +148,33 @@ uint32_t LTC2485::_read()
   int n = _wire->requestFrom(_address, (uint8_t)4);
   if (n == 4)
   {
-    rv |= _wire->read();
-    rv <<= 8;
-    rv |= _wire->read();
-    rv <<= 8;
-    rv |= _wire->read();
-    rv <<= 8;
-    rv |= _wire->read();
+    // rv |= _wire->read();
+    // rv <<= 8;
+    // rv |= _wire->read();
+    // rv <<= 8;
+    // rv |= _wire->read();
+    // rv <<= 8;
+    // rv |= _wire->read();
+    // return rv;
+
+    uint8_t A = _wire->read();
+    uint8_t B = _wire->read();
+    uint8_t C = _wire->read();
+    uint8_t D = _wire->read();
+    if (A < 0x10) Serial.print(0);
+    Serial.print(A, HEX);
+    Serial.print("\t");
+    if (B < 0x10) Serial.print(0);
+    Serial.print(B, HEX);
+    Serial.print("\t");
+    if (C < 0x10) Serial.print(0);
+    Serial.print(C, HEX);
+    Serial.print("\t");
+    if (D < 0x10) Serial.print(0);
+    Serial.print(D, HEX);
+    Serial.print("\t");
+
+    rv = (A << 24) + (B << 16) + (C << 8) + D;
     return rv;
   }
   return n;

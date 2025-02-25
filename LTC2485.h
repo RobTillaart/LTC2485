@@ -50,6 +50,7 @@ private:
   uint32_t _read();
   uint32_t _lastAccess = 0;
   uint8_t  _timeout = 160;   //  TODO 80 at LTC2485_SPEED_2X
+  int      _error = 0;
 
   float     _vref = 5.0;
   uint8_t   _config = LTC2485_SPEED_1X | LTC2485_REJECT_50_60_HZ;

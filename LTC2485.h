@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define LTC2485_LIB_VERSION               (F("0.1.2"))
+#define LTC2485_LIB_VERSION               (F("0.1.2a"))
 
 
 //  CONFIGURATION BITS, TABLE 1

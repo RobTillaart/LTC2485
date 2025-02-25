@@ -50,10 +50,11 @@ int LTC2485::configure(uint8_t config)
   if ((config & 0x06) || (config == 0x09)) return 255;
   if (config & 0xF0) return 255;
   _config = config;
-  while ((millis() - _lastAccess) < _timeout)
-  {
-    delay(1);
-  }
+  delay(200);
+  //while ((millis() - _lastAccess) < _timeout)
+  //{
+  //  delay(1);
+  //}
   int rv = _write(_config);
   //  update lastAccess and timeout on successful write
   if (rv == 0)
@@ -82,10 +83,11 @@ int32_t LTC2485::getADC()
       return 0;
     }
   }
-  while ((millis() - _lastAccess) < _timeout)
-  {
-    delay(1);
-  }
+  delay(200);
+  //while ((millis() - _lastAccess) < _timeout)
+  //{
+  //  delay(1);
+  //}
   int32_t value = _read();
   _lastAccess = millis();
   //  TODO check read error
@@ -111,10 +113,11 @@ float LTC2485::getTemperature()
       return 0;
     }
   }
-  while ((millis() - _lastAccess) < _timeout)
-  {
-    delay(1);
-  }
+  delay(200);
+  //while ((millis() - _lastAccess) < _timeout)
+  //{
+  //  delay(1);
+  //}
   float volts = int32_t(_read() ^ 0x80000000) * _vref * 6.1643863061e-8;
   //  datasheet page 20
   //  27 C  == 420 mV

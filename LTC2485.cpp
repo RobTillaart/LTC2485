@@ -103,6 +103,7 @@ float LTC2485::getVolts()
 }
 
 
+//  TODO FIX FLOW.
 float LTC2485::getTemperature()
 {
   if ((_config & LTC2485_INTERNAL_TEMP) == 0)
@@ -113,7 +114,7 @@ float LTC2485::getTemperature()
       return 0;
     }
   }
-  while (millis() - _lastAccess) < _timeout)
+  while ((millis() - _lastAccess) < _timeout)
   {
     delay(1);
   }
@@ -149,7 +150,6 @@ uint32_t LTC2485::_read()
   int n = _wire->requestFrom(_address, (uint8_t)4);
   if (n == 4)
   {
-    _lastRead = millis();
     rv |= _wire->read();
     rv <<= 8;
     rv |= _wire->read();

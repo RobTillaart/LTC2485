@@ -33,7 +33,7 @@ public:
   bool     isConnected();
   uint8_t  getAddress();
 
-  uint8_t  configure(uint8_t config);
+  int      configure(uint8_t config);
 
   int32_t  getADC();
   float    getVolts();

@@ -157,10 +157,10 @@ uint32_t LTC2485::_read()
     // rv |= _wire->read();
     // return rv;
 
-    uint8_t A = _wire->read();
-    uint8_t B = _wire->read();
-    uint8_t C = _wire->read();
-    uint8_t D = _wire->read();
+    uint32_t A = _wire->read();
+    uint32_t B = _wire->read();
+    uint32_t C = _wire->read();
+    uint32_t D = _wire->read();
     if (A < 0x10) Serial.print(0);
     Serial.print(A, HEX);
     Serial.print("\t");

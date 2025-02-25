@@ -29,14 +29,14 @@ LTC2485::LTC2485(uint8_t address, TwoWire *wire)
   _lastAccess = 0;
   _timeout    = LTC2485_DELAY_1X;
   _error      = 0;
-  _vref       = 5.0;
+  _vref       = 2.5;
   _config     = LTC2485_SPEED_1X | LTC2485_REJECT_50_60_HZ;
 }
 
 
 bool LTC2485::begin(float VREF)
 {
-  _vref = VREF;
+  _vref = VREF * 0.5;
   //  optional address check
   if (! isConnected()) return false;
   configure(_config);

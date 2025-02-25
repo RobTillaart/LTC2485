@@ -12,6 +12,7 @@
 //  0x14  CA1 = LOW  CA0 = HIGH
 LTC2485 LTC(0x14);
 
+float VREF = 5.0;
 
 void setup()
 {
@@ -24,7 +25,8 @@ void setup()
 
   Wire.begin();
   Wire.setClock(100000);
-  LTC.begin();
+
+  LTC.begin(VREF);
   delay(200);
 
   while (!LTC.isConnected())
@@ -48,7 +50,7 @@ void loop()
   if ((millis() - lastTime) >= 1000)
   {
     lastTime = millis();
-    Serial.println(LTC.getMicroVolts());
+    Serial.println(LTC.getMicroVolts(), 3);
   }
 
 }

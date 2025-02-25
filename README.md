@@ -149,10 +149,11 @@ used internally to determine maximum delay needed for conversion.
   - performance section
   - compatibles section
 - get hardware to test library
-- refactor for performance.
+
 
 #### Should
 
+- fix TODO's in code and documentation.
 - check pin compatible devices as derived class?
   - LTC2481 (16 bits) and LTC2483 (16 bits)
 - improve error handling.
@@ -161,6 +162,8 @@ used internally to determine maximum delay needed for conversion.
 - performance measurements
   - I2C bus speed?
   - check math for improvements
+- refactor for performance.
+
 
 #### Could
 

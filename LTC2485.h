@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define LTC2485_LIB_VERSION               (F("0.1.2a"))
+#define LTC2485_LIB_VERSION               (F("0.1.2"))
 
 
 //  CONFIGURATION BITS, TABLE 1
@@ -37,8 +37,8 @@ public:
 
   int32_t  getADC();
   float    getVolts();
-  float    getMilliVolts() { return getVolts() * 1e-3; };
-  float    getMicroVolts() { return getVolts() * 1e-6; };
+  float    getMilliVolts() { return getVolts() * 1e3; };
+  float    getMicroVolts() { return getVolts() * 1e6; };
   float    getTemperature();
 
   uint32_t lastAccessed();
@@ -48,12 +48,12 @@ private:
 
   int      _write(uint8_t value);
   uint32_t _read();
-  uint32_t _lastAccess = 0;
-  uint8_t  _timeout = 160;   //  TODO 80 at LTC2485_SPEED_2X
-  int      _error = 0;
+  uint32_t _lastAccess;
+  uint8_t  _timeout;
+  int      _error;
 
-  float     _vref = 5.0;
-  uint8_t   _config = LTC2485_SPEED_1X | LTC2485_REJECT_50_60_HZ;
+  float     _vref;
+  uint8_t   _config;
   uint8_t   _address = 0x00;
   TwoWire * _wire;
 };

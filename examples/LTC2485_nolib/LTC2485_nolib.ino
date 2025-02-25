@@ -15,7 +15,7 @@ void setup()
   Wire.begin();
   delay(200);  //  for first conversion
 
-  for (int del = 200; del > 0; del -= 10)
+  for (int del = 200; del > 150; del -= 5)
   {
     Serial.print(del);
     Serial.print("\t");

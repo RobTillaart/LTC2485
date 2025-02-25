@@ -44,13 +44,33 @@ uint8_t LTC2485::getAddress()
   return _address;
 }
 
-uint8_t LTC2485::configure(uint8_t config)
+int LTC2485::configure(uint8_t config)
 {
   //  skip invalid configuration, see table 1.
   if ((config & 0x06) || (config == 0x09)) return 255;
   if (config & 0xF0) return 255;
+  while (millis() - _lastAccess) < _timeout)
+  {
+    delay(1);
+  }
   _config = config;
-  return _write(_config);
+  //  adjust conversion timeout
+  if (_config & LTC2485_SPEED_2X) 
+  {
+    _timeout = 80;
+  }
+  else
+  {
+    _timeout = 160;
+  }
+  //  finally write to LTC2485
+  int rv = _write(_config);
+  //  update lastAccess if successful write
+  if (rv == 0)
+  {
+    _lastAccess = millis();
+  }
+  return rv;
 }
 
 
@@ -63,10 +83,13 @@ int32_t LTC2485::getADC()
       Serial.println("FAIL TO CONFIG-A");
       return 0;
     }
-    delay(160);
   }
-
+  while (millis() - _lastAccess) < _timeout)
+  {
+    delay(1);
+  }
   int32_t value = _read();
+  _lastAccess = millis();
   //  TODO check read error
   value ^= 0x80000000;
   return value;
@@ -89,9 +112,11 @@ float LTC2485::getTemperature()
       Serial.println("FAIL TO CONFIG-T");
       return 0;
     }
-    delay(160);
   }
-
+  while (millis() - _lastAccess) < _timeout)
+  {
+    delay(1);
+  }
   //  datasheet page 20
   //  27 C  == 420 mV
   //  SLOPE == 1.40 mV
@@ -100,9 +125,9 @@ float LTC2485::getTemperature()
 }
 
 
-uint32_t LTC2485::lastRead()
+uint32_t LTC2485::lastAccessed()
 {
-  return _lastRead;
+  return _lastAccess;
 }
 
 
@@ -110,7 +135,7 @@ uint32_t LTC2485::lastRead()
 //
 //  PRIVATE functions
 //
-uint8_t LTC2485::_write(uint8_t value)
+int LTC2485::_write(uint8_t value)
 {
   _wire->beginTransmission(_address);
   _wire->write(value);

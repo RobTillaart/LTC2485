@@ -41,14 +41,15 @@ public:
   float    getMicroVolts() { return getVolts() * 1e-6; };
   float    getTemperature();
 
-  uint32_t lastRead();
+  uint32_t lastAccessed();
 
 
 private:
 
   uint8_t  _write(uint8_t value);
   uint32_t _read();
-  uint32_t _lastRead = 0;
+  uint32_t _lastAccess = 0;
+  uint8_t  _timeout = 160;   //  TODO 80 at LTC2485_SPEED_2X
 
   float     _vref = 5.0;
   uint8_t   _config = LTC2485_SPEED_1X | LTC2485_REJECT_50_60_HZ;

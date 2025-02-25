@@ -102,7 +102,8 @@ Note: do call **Wire.begin()** before **begin()**
 
 ### Configure
 
-- **uint8_t configure(uint8_t value)** set flags for next conversion.
+- **int configure(uint8_t value)** set flags for next conversion.
+Returns status of I2C, 0 == success write.
 
 Configuration bit masks, should be OR-ed.
 
@@ -136,7 +137,8 @@ So it might be needed to discard a first read.
 - **float getTemperature()** returns internal temperature.
 Will configure temperature mode automatically.
 
-- **uint32_t lastRead()** track time in milliseconds of last read.
+- **uint32_t lastAccesed()** track time in milliseconds of last access.
+used internally to determine maximum delay needed for conversion.
 
 
 ## Future
@@ -147,6 +149,7 @@ Will configure temperature mode automatically.
   - performance section
   - compatibles section
 - get hardware to test library
+- refactor for performance.
 
 #### Should
 
@@ -155,7 +158,6 @@ Will configure temperature mode automatically.
 - improve error handling.
   - overflow / underflow
   - time out handling?
-  - block premature conversion in code.
 - performance measurements
   - I2C bus speed?
   - check math for improvements

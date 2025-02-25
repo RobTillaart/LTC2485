@@ -49,7 +49,7 @@ int LTC2485::configure(uint8_t config)
   //  skip invalid configuration, see table 1.
   if ((config & 0x06) || (config == 0x09)) return 255;
   if (config & 0xF0) return 255;
-  while (millis() - _lastAccess) < _timeout)
+  while ((millis() - _lastAccess) < _timeout)
   {
     delay(1);
   }
@@ -84,7 +84,7 @@ int32_t LTC2485::getADC()
       return 0;
     }
   }
-  while (millis() - _lastAccess) < _timeout)
+  while ((millis() - _lastAccess) < _timeout)
   {
     delay(1);
   }

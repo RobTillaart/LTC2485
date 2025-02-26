@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - rename lastRead() => lastAccessed()
 - update readme.md
 - add example LTC2485_nolib.ino for testing
+- update examples
 
 
 ## [0.1.1] - 2025-02-22

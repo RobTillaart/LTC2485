@@ -34,7 +34,7 @@ LTC2485::LTC2485(uint8_t address, TwoWire *wire)
 
 bool LTC2485::begin(float VREF)
 {
-  _vref = VREF * 0.5;
+  _vref = VREF;
   //  optional address check
   if (! isConnected()) return false;
   configure(_config);
@@ -89,18 +89,19 @@ int32_t LTC2485::getADC()
 
   //  hard wait until conversion is done...
   delay(_timeout);
+  //  read the ADC
   int32_t value = _read();
   //  update lastAccess
   _lastAccess = millis();
   //  make two complements.
   value ^= 0x80000000;
-  return value;
+  return value / 128;  //  31 bits => 24 bits.
 }
 
 
 float LTC2485::getVolts()
 {
-  //  return (getADC() * _vref) / 16777215L;
+  //  return getADC() * _vref / 16777215L;
   return getADC() * _vref * 5.960464832810e-8;
 }
 
@@ -119,7 +120,15 @@ float LTC2485::getTemperature()
 
   //  hard wait until conversion is done...
   delay(_timeout);
-  float volts = int32_t(_read() ^ 0x80000000) * _vref * 5.960464832810e-8;
+  //  read the ADC
+  int32_t value = _read();
+  //  update lastAccess
+  _lastAccess = millis();
+  //  make two complements.
+  value ^= 0x80000000;
+  value /= 128;
+  float volts = value * _vref * 5.960464832810e-8;
+  _lastAccess = millis();
   //  datasheet page 20
   //  27 C  == 420 mV
   //  SLOPE == 1.40 mV

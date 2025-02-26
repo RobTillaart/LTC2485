@@ -131,6 +131,7 @@ Read returns the last conversion and triggers a new conversion at the end.
 So it might be needed to discard a first read.
 
 - **int32_t getADC()** returns ADC value. Will configure ADC mode automatically.
+Returned range == -16777215..+16777215
 - **float getVolts()** converts ADC value to volts.
 - **float getMilliVolts()** converts ADC value to millivolts.
 - **float getMicroVolts()** converts ADC value to microvolts.

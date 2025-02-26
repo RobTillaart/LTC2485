@@ -73,7 +73,11 @@ TODO
 
 ### Related
 
+- https://gammon.com.au/adc  tutorial about ADC's (UNO specific)
 - https://github.com/RobTillaart/LTC2485
+- https://github.com/RobTillaart/MCP_ADC  SPI based ADC
+- https://github.com/RobTillaart/ADS1x15  (12 & 16 bit ADC, I2C, slow)
+- https://github.com/RobTillaart/PCF8591  (8 bit ADC + 1 bit DAC)
 - https://github.com/RobTillaart/temperature converters
 
 
@@ -98,7 +102,8 @@ Note: do call **Wire.begin()** before **begin()**
 
 ### Configure
 
-- **uint8_t configure(uint8_t value)** set flags for next conversion.
+- **int configure(uint8_t value)** set flags for next conversion.
+Returns status of I2C, 0 == success write.
 
 Configuration bit masks, should be OR-ed.
 
@@ -126,13 +131,15 @@ Read returns the last conversion and triggers a new conversion at the end.
 So it might be needed to discard a first read.
 
 - **int32_t getADC()** returns ADC value. Will configure ADC mode automatically.
+Returned range == -16777215..+16777215
 - **float getVolts()** converts ADC value to volts.
 - **float getMilliVolts()** converts ADC value to millivolts.
 - **float getMicroVolts()** converts ADC value to microvolts.
 - **float getTemperature()** returns internal temperature.
 Will configure temperature mode automatically.
 
-- **uint32_t lastRead()** track time in milliseconds of last read.
+- **uint32_t lastAccesed()** track time in milliseconds of last access.
+used internally to determine maximum delay needed for conversion.
 
 
 ## Future
@@ -144,17 +151,20 @@ Will configure temperature mode automatically.
   - compatibles section
 - get hardware to test library
 
+
 #### Should
 
+- fix TODO's in code and documentation.
 - check pin compatible devices as derived class?
   - LTC2481 (16 bits) and LTC2483 (16 bits)
 - improve error handling.
   - overflow / underflow
   - time out handling?
-  - block premature conversion in code.
 - performance measurements
   - I2C bus speed?
   - check math for improvements
+- refactor for performance.
+
 
 #### Could
 

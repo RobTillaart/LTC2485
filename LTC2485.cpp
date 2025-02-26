@@ -11,10 +11,8 @@
 
 //  CONVERSION
 //  needed as I2C is blocked during conversion.
-//  you can optimize these a bit as low as about 160 and 80.
-//  at your own risk.
 #define LTC2485_DELAY_1X                        200
-#define LTC2485_DELAY_2X                        100
+#define LTC2485_DELAY_2X                        100  //  not used yet
 
 
 /////////////////////////////////////////////////////
@@ -63,27 +61,14 @@ int LTC2485::configure(uint8_t config)
   if (config & 0xF0) return 255;
   _config = config;
 
-  //  wait until conversion is done...
-  //  TODO:  while(_write(_config) != 0 && not timeout); ?
-  //
-  while ((millis() - _lastAccess) < _timeout)
-  {
-    delay(1);
-  }
+  //  hard wait until conversion is done...
+  delay(_timeout);
   int rv = _write(_config);
 
-  //  update lastAccess and timeout on successful write
+  //  update lastAccess on successful write
   if (rv == 0)
   {
     _lastAccess = millis();
-    if (_config & LTC2485_SPEED_2X)
-    {
-      _timeout = LTC2485_DELAY_2X;
-    }
-    else
-    {
-      _timeout = LTC2485_DELAY_1X;
-    }
   }
   return rv;
 }
@@ -102,12 +87,8 @@ int32_t LTC2485::getADC()
     }
   }
 
-  //  wait until last conversion is done...
-  //  TODO:  can this be optimized with a _read() check.
-  while ((millis() - _lastAccess) < _timeout)
-  {
-    delay(1);
-  }
+  //  hard wait until conversion is done...
+  delay(_timeout);
   int32_t value = _read();
   //  update lastAccess
   _lastAccess = millis();
@@ -136,11 +117,8 @@ float LTC2485::getTemperature()
     }
   }
 
-  //  wait until last conversion is done...
-  while ((millis() - _lastAccess) < _timeout)
-  {
-    delay(1);
-  }
+  //  hard wait until conversion is done...
+  delay(_timeout);
   float volts = int32_t(_read() ^ 0x80000000) * _vref * 5.960464832810e-8;
   //  datasheet page 20
   //  27 C  == 420 mV

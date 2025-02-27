@@ -127,12 +127,15 @@ float LTC2485::getTemperature()
   //  make two complements.
   value ^= 0x80000000;
   value /= 128;
-  float volts = value * _vref * 5.960464832810e-8;
+
+  //  div 16777215 == mul 5.960464832810e-8
+  //  float milliVolts = value * _vref * 5.960464832810e-8 * 1000;
+  float milliVolts = value * _vref * 5.960464832810e-5;
   _lastAccess = millis();
   //  datasheet page 20
   //  27 C  == 420 mV
-  //  SLOPE == 1.40 mV
-  float TC = 27.0 + 1.40 * (volts - 0.420);
+  //  SLOPE == 1.40 mV / °C
+  float TC = 27.0 + (milliVolts - 420) / 1.40;
   return TC;
 }
 

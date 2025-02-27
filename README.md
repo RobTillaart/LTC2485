@@ -18,8 +18,6 @@ Arduino library for LTC2485 I2C 24 bit ADC.
 
 **Experimental**
 
-Not tested with hardware yet
-
 LTC2485 is an library for the LTC2485 24 bit ADC which is typically used
 to monitor a voltage.
 
@@ -34,9 +32,14 @@ The library allows to read that and has a non calibrated conversion.
 
 Read the datasheet for the details.
 
-
 As always, feedback is welcome.
 
+### Tested
+
+Tested with hardware during development.
+More tests are needed to see if and how it can be improved.
+
+See - https://forum.arduino.cc/t/ltc2485-arduino-library/1356147
 
 ### Keycode
 

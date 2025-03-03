@@ -87,24 +87,15 @@ int32_t LTC2485::getADC()
     }
   }
 
-  //  NEW INTERPRETATION
+  //  hard wait until conversion is done...
   delay(_timeout);
+  //  read the ADC
   int32_t value = _read();
+  //  update lastAccess
   _lastAccess = millis();
-  value <<= 1;
-  return value / 256;
-
-
-  //  ORG INTERPRETATION
-  // //  hard wait until conversion is done...
-  // delay(_timeout);
-  // //  read the ADC
-  // int32_t value = _read();
-  // //  update lastAccess
-  // _lastAccess = millis();
-  // //  make two complements.
-  // value ^= 0x80000000;
-  // return value / 128;  //  31 bits => 24 bits.
+  //  make two complements.
+  value ^= 0x80000000;
+  return value / 128;  //  31 bits => 24 bits.
 }
 
 
@@ -137,19 +128,11 @@ float LTC2485::getTemperature()
   Serial.print("\t");
   Serial.println(value, DEC);
 
-
-  //  NEW INTERPRETATION
+  //  update lastAccess
   _lastAccess = millis();
-  value <<= 1;
-  return value / 256;
-
-
-  //  ORG INTERPRETATION
-  // //  update lastAccess
-  // _lastAccess = millis();
-  // //  make two complements.
-  // value ^= 0x80000000;
-  // value /= 128;
+  //  make two complements.
+  value ^= 0x80000000;
+  value /= 128;
 
   //  16777215 == 2^24 - 1
   //  div 16777215 == mul 5.960464832810e-8

@@ -1,7 +1,7 @@
 //
 //    FILE: LTC2485.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 //    DATE: 2025-02-21
 // PURPOSE: Arduino library for LTC2485 I2C 24 bit ADC.
 //     URL: https://github.com/RobTillaart/LTC2485
@@ -122,12 +122,19 @@ float LTC2485::getTemperature()
   delay(_timeout);
   //  read the ADC
   int32_t value = _read();
+
+  Serial.print("TRAW: \t");
+  Serial.print(value, HEX);
+  Serial.print("\t");
+  Serial.println(value, DEC);
+
   //  update lastAccess
   _lastAccess = millis();
   //  make two complements.
   value ^= 0x80000000;
   value /= 128;
 
+  //  16777215 == 2^24 - 1
   //  div 16777215 == mul 5.960464832810e-8
   //  float milliVolts = value * _vref * 5.960464832810e-8 * 1000;
   float milliVolts = value * _vref * 5.960464832810e-5;

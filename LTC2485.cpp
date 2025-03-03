@@ -92,7 +92,7 @@ int32_t LTC2485::getADC()
   int32_t value = _read();
   _lastAccess = millis();
   value <<= 1;
-  return value / 256.
+  return value / 256;
 
 
   //  ORG INTERPRETATION
@@ -141,7 +141,7 @@ float LTC2485::getTemperature()
   //  NEW INTERPRETATION
   _lastAccess = millis();
   value <<= 1;
-  return value / 256.
+  return value / 256;
 
 
   //  ORG INTERPRETATION

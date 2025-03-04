@@ -45,7 +45,7 @@ LTC2485::LTC2485(uint8_t address, TwoWire *wire)
 
 bool LTC2485::begin(float VREF)
 {
-  _vref = VREF * 0.5;
+  _vref = VREF;
   //  optional address check
   if (! isConnected()) return false;
   configure(_config);

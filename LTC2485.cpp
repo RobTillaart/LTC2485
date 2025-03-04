@@ -9,10 +9,21 @@
 
 #include "LTC2485.h"
 
+
 //  CONVERSION
 //  needed as I2C is blocked during conversion.
 #define LTC2485_DELAY_1X                        200
 #define LTC2485_DELAY_2X                        100  //  not used yet
+
+
+//  CALIBRATION 
+//  adjust these numbers to your need
+//  determine them by averaging multiple TC measurements.
+//  Datasheet page 20: 27 C; 420 mV; 1.40 mV/°C
+//
+const float LTC2485_TAVERAGE       = 27.0;    //  °C
+const float LTC2485_MVOLT_TAVERAGE = 420.0;   //  mV
+const float LTC2485_SLOPE          = 1.40;    //  mV/°C
 
 
 /////////////////////////////////////////////////////
@@ -140,9 +151,10 @@ float LTC2485::getTemperature()
   float milliVolts = value * _vref * 5.960464832810e-5;
   _lastAccess = millis();
   //  datasheet page 20
+  //  adjust constants at top of file.
   //  27 C  == 420 mV
   //  SLOPE == 1.40 mV / °C
-  float TC = 27.0 + (milliVolts - 420) / 1.40;
+  float TC = LTC2485_TAVERAGE + (milliVolts - LTC2485_MVOLT_TAVERAGE) / LTC2485_SLOPE;
   return TC;
 }
 

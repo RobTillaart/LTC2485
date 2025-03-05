@@ -143,8 +143,8 @@ So it might be needed to discard a first read.
 - **int32_t getADC()** returns ADC value. Will configure ADC mode automatically
 if needed. 
 Returned range == -16777215..+16777215  
-+1677216 == overflow  
--1677216 == underflow
++16777216 == overflow  
+-16777216 == underflow
 - **float getVolts()** converts ADC value to volts.
 - **float getMilliVolts()** converts ADC value to millivolts.
 - **float getMicroVolts()** converts ADC value to microvolts.

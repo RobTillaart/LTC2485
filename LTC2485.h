@@ -24,6 +24,14 @@
 #define LTC2485_INTERNAL_TEMP                   0x08
 
 
+//  ERROR
+#define LTC2485_OK                              0
+#define LTC2485_ERR_CONFIG_ADC                  -1
+#define LTC2485_ERR_CONFIG_TEMP                 -2
+#define LTC2485_ERR_I2C_W                       -3
+#define LTC2485_ERR_I2C_R                       -4
+
+
 class LTC2485
 {
 public:
@@ -43,6 +51,8 @@ public:
 
   uint32_t lastAccessed();
 
+  //  ERROR HANDLING
+  int      getLastError();
 
 private:
 

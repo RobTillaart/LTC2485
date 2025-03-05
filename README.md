@@ -165,29 +165,26 @@ used internally to determine maximum delay needed for conversion.
   - compatibles section
 - get hardware to test library
 
-
 #### Should
 
-- fix TODO's in code and documentation.
-- check pin compatible devices as derived class?
-  - LTC2481 (16 bits) and LTC2483 (16 bits)
-- improve error handling.
+- improve error handling
   - overflow / underflow
   - time out handling?
-- performance measurements
-  - I2C bus speed?
-  - check math for improvements
-- refactor for performance.
-
+- fix TODO's in code and documentation
 
 #### Could
 
+- check pin compatible devices as derived class?
+  - LTC2481 (16 bits) and LTC2483 (16 bits)
 - calibrate internal temperature, something like
   - **void calibrateTemperature(float A, float B)**  420.0  1.40
   - TC = 27 + (Voltage - A) x B;
 - create a 16 bit API which only gets 2 bytes instead of 4?
   - looses the "noisy" bits.
-
+- performance measurements
+  - I2C bus speed?
+  - check math for improvements
+- refactor for performance
 
 #### Wont
 

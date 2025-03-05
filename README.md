@@ -150,8 +150,9 @@ Returned range == -16777215..+16777215
 - **float getMicroVolts()** converts ADC value to microvolts.
 - **float getTemperature()** returns internal temperature.
 Will configure temperature mode automatically.
-During first hardware tests it 
-
+During first hardware tests it was impossible to get the temperature
+stable. 
+This needs more investigation in the future.
 - **uint32_t lastAccesed()** track time in milliseconds of last access.
 used internally to determine maximum delay needed for conversion.
 

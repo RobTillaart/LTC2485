@@ -199,7 +199,7 @@ uint32_t LTC2485::_read()
   int n = _wire->requestFrom(_address, (uint8_t)4);
   if (n != 4)
   {
-    _error = LTC2485_ERR_I2C_R
+    _error = LTC2485_ERR_I2C_R;
     return n;
   }
   uint32_t rv = 0;
